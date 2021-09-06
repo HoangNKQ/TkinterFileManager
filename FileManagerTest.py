@@ -167,10 +167,14 @@ def create_widgets(parent):
     file_sorting_frame.rowconfigure(3, weight = 2)
     file_sorting_frame.rowconfigure(4, weight = 1)
 
-    option_1 = ttk.Radiobutton(file_sorting_frame, text='By Name', value='Name', variable= sort_options).grid(row=0, column=0, columnspan=2, sticky='w')
-    option_2 = ttk.Radiobutton(file_sorting_frame, text='By Modified Date', value='Date', variable= sort_options).grid(row=1, column=0, columnspan=2, sticky='w')
-    option_3 = ttk.Radiobutton(file_sorting_frame, text='By Extension', value='Ext', variable= sort_options).grid(row=2, column=0, columnspan=2, sticky='w')
-    option_4 = ttk.Radiobutton(file_sorting_frame, text='By Size', value='Size', variable= sort_options).grid(row=3, column=0, columnspan=2, sticky='w')
+    option_1 = ttk.Radiobutton(file_sorting_frame, text='By Name', value='Name', variable= sort_options)
+    option_1.grid(row=0, column=0, columnspan=2, sticky='w')
+    option_2 = ttk.Radiobutton(file_sorting_frame, text='By Modified Date', value='Date', variable= sort_options)
+    option_2.grid(row=1, column=0, columnspan=2, sticky='w')
+    option_3 = ttk.Radiobutton(file_sorting_frame, text='By Extension', value='Ext', variable= sort_options)
+    option_3.grid(row=2, column=0, columnspan=2, sticky='w')
+    option_4 = ttk.Radiobutton(file_sorting_frame, text='By Size', value='Size', variable= sort_options)
+    option_4.grid(row=3, column=0, columnspan=2, sticky='w')
     
     sort_button = ttk.Button(file_sorting_frame, text='Sort', command= sort_file)
     sort_button.grid(row = 4, column=1, padx= 5, pady= 5, sticky='ew')
