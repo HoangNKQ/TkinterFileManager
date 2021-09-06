@@ -4,8 +4,6 @@ from tkinter import ttk
 import os 
 import time
 
-# main_path = 'D:\HoangTU\Tu\Tech\Algorithm'
-
 main_path = ''
 directory_content = []
 sorted_content = []
@@ -59,7 +57,7 @@ def sort_file():
 
     # display file tree in different order 
     if sort_options.get() == 'Name':
-        sorted_content.sort(key= lambda x : x[0])
+        sorted_content = sorted(sorted_content, key= lambda x : x[0].lower())
         for file in sorted_content:
             file_tree.insert('', tk.END, values=file)
     
@@ -169,10 +167,14 @@ def create_widgets(parent):
     file_sorting_frame.rowconfigure(3, weight = 2)
     file_sorting_frame.rowconfigure(4, weight = 1)
 
-    option_1 = ttk.Radiobutton(file_sorting_frame, text='By Name', value='Name', variable= sort_options).grid(row=0, column=0, columnspan=2, sticky='w')
-    option_2 = ttk.Radiobutton(file_sorting_frame, text='By Modified Date', value='Date', variable= sort_options).grid(row=1, column=0, columnspan=2, sticky='w')
-    option_3 = ttk.Radiobutton(file_sorting_frame, text='By Extension', value='Ext', variable= sort_options).grid(row=2, column=0, columnspan=2, sticky='w')
-    option_4 = ttk.Radiobutton(file_sorting_frame, text='By Size', value='Size', variable= sort_options).grid(row=3, column=0, columnspan=2, sticky='w')
+    option_1 = ttk.Radiobutton(file_sorting_frame, text='By Name', value='Name', variable= sort_options)
+    option_1.grid(row=0, column=0, columnspan=2, sticky='w')
+    option_2 = ttk.Radiobutton(file_sorting_frame, text='By Modified Date', value='Date', variable= sort_options)
+    option_2.grid(row=1, column=0, columnspan=2, sticky='w')
+    option_3 = ttk.Radiobutton(file_sorting_frame, text='By Extension', value='Ext', variable= sort_options)
+    option_3.grid(row=2, column=0, columnspan=2, sticky='w')
+    option_4 = ttk.Radiobutton(file_sorting_frame, text='By Size', value='Size', variable= sort_options)
+    option_4.grid(row=3, column=0, columnspan=2, sticky='w')
     
     sort_button = ttk.Button(file_sorting_frame, text='Sort', command= sort_file)
     sort_button.grid(row = 4, column=1, padx= 5, pady= 5, sticky='ew')
@@ -183,7 +185,7 @@ def create_widgets(parent):
 def main():
     root = tk.Tk()
     root.title('File Manager')
-    root.tk.call("source", "D:/HoangTU/Tu/Tech/Programming/Python/CodePractice/Tkinter/miniProjects/FileManagerTestBuild/sun-valley.tcl")
+    root.tk.call("source", "TkinterFileManager\FileMangerSource\sun-valley.tcl")
     root.tk.call("set_theme", "dark")
 
     # Grid Manager
