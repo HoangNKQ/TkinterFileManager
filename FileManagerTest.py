@@ -57,7 +57,7 @@ def sort_file():
 
     # display file tree in different order 
     if sort_options.get() == 'Name':
-        sorted_content.sort(key= lambda x : x[0])
+        sorted_content = sorted(sorted_content, key= lambda x : x[0].lower())
         for file in sorted_content:
             file_tree.insert('', tk.END, values=file)
     
@@ -181,7 +181,7 @@ def create_widgets(parent):
 def main():
     root = tk.Tk()
     root.title('File Manager')
-    root.tk.call("source", "D:/HoangTU/Tu/Tech/Programming/Python/CodePractice/Tkinter/miniProjects/FileManagerTestBuild/sun-valley.tcl")
+    root.tk.call("source", "TkinterFileManager\FileMangerSource\sun-valley.tcl")
     root.tk.call("set_theme", "dark")
 
     # Grid Manager
