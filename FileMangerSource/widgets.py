@@ -34,10 +34,11 @@ class PathEntry(tk.Frame):
         self.path_text.set()
 
     def enter_path (self):
-        print(fp.process_entry_path(self))
-
+        fp.process_entry_path(self)
 
 class FileView(tk.Frame):
+
+    list = []
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -59,10 +60,9 @@ class FileView(tk.Frame):
         file_sb.grid(row=0, column=0, sticky="nse")
         self.file_tree.configure(yscrollcommand=file_sb.set)
 
-    # def display_file(self):
-    #     # files_list = fp.get_directory_content(self)
-    #     for file in files_list:
-    #         self.file_tree.insert('', tk.END, values=file)
+    def display_file(self):
+        for file in self.list:
+            self.file_tree.insert('', tk.END, values=file)
 
 
 class DirectoryView(tk.Frame):

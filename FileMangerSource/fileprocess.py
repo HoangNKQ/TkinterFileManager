@@ -1,3 +1,4 @@
+from Widgets import FileView
 import tkinter
 import widgets as wdg
 import os
@@ -12,7 +13,10 @@ class FileProcess:
 
     def process_entry_path(self):
         self.main_path = wdg.PathEntry.get_entry_path(self)
-        return self.main_path
+        self.get_directory_content()
+
+    def send_to_FileView(self):
+        wdg.FileView.list = self.get_directory_content()
 
     def get_directory_content(self):
         
@@ -26,6 +30,8 @@ class FileProcess:
             file_size = os.path.getsize(self.main_path + "/" + file)
             # append to the list of file with corresponding information
             self.file_list.append((file, modified_time, file_extension, file_size))
+
+        return self.file_list
         
 
 
