@@ -1,4 +1,4 @@
-from Widgets import FileView
+
 import tkinter
 import widgets as wdg
 import os
