@@ -1,7 +1,8 @@
-import display
-import process
+from display import Display
+from process import Process
 
 class Control:
     def __init__(self):
-        pass
+        self.display = Display()
+        self.process = Process()
 
