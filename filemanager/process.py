@@ -4,8 +4,10 @@ import time
 class Process:
     
     files = []
+    sorted_files = []
 
     def list_files(self, main_path):
+        self.files.clear()
         for file in os.listdir(main_path):
             # save file's modified time 
             modified_time = time.strftime('%d-%m-%Y %H:%M', time.localtime(os.path.getmtime(main_path + "/" + file)))
@@ -19,4 +21,21 @@ class Process:
 
         return self.files
 
-    
+
+    def list_sorted_files(self, options):
+        self.sorted_files.clear()
+        self.files.copy()
+
+        if options == 'Name':
+            self.sorted_files = sorted(self.sorted_files, key= lambda x : x[0].lower())
+
+        if options == 'Date':
+            self.sorted_files = sorted(key= lambda x : x[1])
+
+        if options == 'Ext':
+            self.sorted_files = sorted(key= lambda x : x[2])
+
+        if options == 'Size':
+            self.sorted_files = sorted(key= lambda x : x[3])
+
+        return self.sorted_files

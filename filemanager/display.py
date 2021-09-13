@@ -79,6 +79,14 @@ class Display(tk.Tk):
         self.file_tree.configure(yscrollcommand=file_sb.set)
 
         return fileview_frame
+    
+    def display_files(self, file_list):
+        for file in file_list:
+            self.file_tree.insert('', tk.END, values=file)
+    
+    def clear_fileview(self):
+        for item in self.file_tree.get_children():
+            self.file_tree.delete(item)
 
 
 
@@ -132,10 +140,13 @@ class Display(tk.Tk):
         option_4 = ttk.Radiobutton(file_sorting_frame, text='By Size', value='Size', variable= self.sort_option)
         option_4.grid(row=3, column=0, columnspan=2, sticky='w')
 
-        sort_button = ttk.Button(file_sorting_frame, text='Sort')
-        sort_button.grid(row = 4, column=1, padx= 5, pady= 5, sticky='ew')
+        self.sort_button = ttk.Button(file_sorting_frame, text='Sort')
+        self.sort_button.grid(row = 4, column=1, padx= 5, pady= 5, sticky='ew')
 
         return sorting_frame
+
+    def get_sort_option(self):
+        return self.sort_option.get()
 
 
 
