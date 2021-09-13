@@ -2,12 +2,24 @@ from display import Display
 from process import Process
 
 class Control:
+
     def __init__(self):
-        self.display = Display()
+        self.gui = Display()
         self.process = Process()
 
+        self.gui.choose_button.bind('<Button-1>', self.handle_entry_button)
+
+    def handle_entry_button(self, event):
+        self.path = self.gui.get_entry_text()
+        print (self.path)
+
+    def handle_sort_button(self):
+        pass
+
     def start_window(self):
-        self.display.init_display()
+        self.gui.init_display()
+
+    
 
 
 

@@ -4,12 +4,15 @@ from tkinter import ttk
 class Display(tk.Tk):
     def __init__(self):
         super().__init__()
+
         self.title("FILE MANAGER")
         self.tk.call("source", "theme\sun-valley.tcl")
         self.tk.call("set_theme", "dark")
 
+
         self.setup_frame()
         self.init_frame()
+
 
     def setup_frame(self):
         self.columnconfigure(0, weight = 1)
@@ -19,41 +22,28 @@ class Display(tk.Tk):
         self.rowconfigure(1, weight = 20)
         self.rowconfigure(2, weight = 1)
 
+
     def init_frame(self):
-        entry_frame = PathEntry(self)
+        entry_frame = self.create_entry_frame(self)
         entry_frame.grid (row=0, column=1, padx= 5, pady= 5, sticky= 'ew')
-
-        file_frame = FileView(self)
+        file_frame = self.create_fileview_frame(self)
         file_frame.grid (row=1, column=1, padx=5, pady=5, sticky='nsew')
-
-        directory_frame = DirectoryView(self)
+        directory_frame = self.create_directory_frame(self)
         directory_frame.grid (row=0, column=0, rowspan= 3, padx=5, pady=5, sticky='nsew')
-
-        sort_option_frame = SortOptions(self)
+        sort_option_frame = self.create_sorting_frame(self)
         sort_option_frame.grid (row= 1, column=2, padx= 5, pady= 5, sticky= 'nsew')
-
-        operation_frame = FileOperation(self)
+        operation_frame = self.create_operation_frame(self)
         operation_frame.grid (row= 2, column= 1, padx= 5, pady= 5, sticky='nsew')
 
-    def init_display(self):
-        self.mainloop()
 
 
-
-class PathEntry(ttk.Frame):
-
-    def __init__(self, parent):
-        super().__init__(parent)
-
+    def create_entry_frame(self, parent):
         self.path_text = tk.StringVar()
+        entry_frame = ttk.Frame(parent)
+        entry_frame.columnconfigure(0, weight = 1)
+        entry_frame.rowconfigure(0, weight = 1)
 
-        self.columnconfigure(0, weight = 1)
-        self.rowconfigure(0, weight = 1)
-
-        self.widget_init()
-
-    def widget_init(self):
-        entry_label = ttk.LabelFrame(self, text= "Directory Path", padding=(5, 5))
+        entry_label = ttk.LabelFrame(entry_frame, text= "Directory Path", padding=(5, 5))
         entry_label.grid(row= 0, column=0, padx= 5, pady= 5, sticky= 'we')
         entry_label.rowconfigure (0, weight = 1)
         entry_label.columnconfigure (0, weight = 10)
@@ -62,29 +52,22 @@ class PathEntry(ttk.Frame):
         entry_box = ttk.Entry(entry_label, textvariable= self.path_text)
         entry_box.grid(row= 0 ,column= 0, padx = 5, pady= 5, sticky='we')
 
-        choose_button = ttk.Button(entry_label, text= 'Enter')
-        choose_button.grid(row= 0, column= 1, pady=5, padx= 5, sticky='we')
+        self.choose_button = ttk.Button(entry_label, text= 'Enter')
+        self.choose_button.grid(row= 0, column= 1, pady=5, padx= 5, sticky='we')
 
-    def get_text_entry(self):
+        return entry_frame
+    
+    def get_entry_text(self):
         return self.path_text.get()
 
-    def set_text_entry(self, text):
-        self.path_text.set(text)
 
 
+    def create_fileview_frame(self, parent):
+        fileview_frame  = ttk.Frame(parent)
+        fileview_frame.rowconfigure(0, weight = 1)
+        fileview_frame.columnconfigure(0, weight = 1)
 
-class FileView(ttk.Frame):
-
-    def __init__(self, parent):
-        super().__init__(parent)
-
-        self.rowconfigure(0, weight = 1)
-        self.columnconfigure(0, weight = 1)
-
-        self.widget_init()
-
-    def widget_init(self):
-        self.file_tree = ttk.Treeview(self, columns=('#1', '#2', '#3', '#4'), show='headings')
+        self.file_tree = ttk.Treeview(fileview_frame, columns=('#1', '#2', '#3', '#4'), show='headings')
         self.file_tree.heading('#1', text= 'Name')
         self.file_tree.heading('#2', text= 'Date Modified')
         self.file_tree.heading('#3', text= 'File Type')
@@ -95,20 +78,16 @@ class FileView(ttk.Frame):
         file_sb.grid(row=0, column=0, sticky="nse")
         self.file_tree.configure(yscrollcommand=file_sb.set)
 
+        return fileview_frame
 
 
-class DirectoryView(ttk.Frame):
 
-    def __init__(self, parent):
-        super().__init__(parent)
+    def create_directory_frame(self, parent):
+        directory_frame = ttk.Frame(parent)
+        directory_frame.columnconfigure(0, weight = 1)
+        directory_frame.rowconfigure(0, weight = 1)
 
-        self.columnconfigure(0, weight = 1)
-        self.rowconfigure(0, weight = 1)
-
-        self.widget_init()
-
-    def widget_init(self):
-        directory_tree_frame = ttk.LabelFrame(self, text="Directory Browser", padding=(10, 10))
+        directory_tree_frame = ttk.LabelFrame(directory_frame, text="Directory Browser", padding=(10, 10))
         directory_tree_frame.grid(row=0, column=0, padx= 5, pady= 5, sticky='nsew')
         directory_tree_frame.columnconfigure(0, weight = 1)
         directory_tree_frame.rowconfigure(0, weight = 20)
@@ -124,22 +103,17 @@ class DirectoryView(ttk.Frame):
         xsb.grid(row=0, column=0, sticky="sew")
         self.directory_tree.configure(yscrollcommand=ysb.set, xscrollcommand=xsb.set)
 
+        return directory_frame
 
 
-class SortOptions(ttk.Frame):
 
-    def __init__(self, parent):
-        super().__init__(parent)
-
+    def create_sorting_frame(self, parent):
         self.sort_option = tk.StringVar()
+        sorting_frame = ttk.Frame(parent)
+        sorting_frame.columnconfigure(0, weight = 1)
+        sorting_frame.rowconfigure(0, weight = 1)
 
-        self.columnconfigure(0, weight = 1)
-        self.rowconfigure(0, weight = 1)
-
-        self.widget_init()
-
-    def widget_init(self):
-        file_sorting_frame = ttk.LabelFrame(self, text="Sorting Options", padding=(5, 5))
+        file_sorting_frame = ttk.LabelFrame(sorting_frame, text="Sorting Options", padding=(5, 5))
         file_sorting_frame.grid(row=0, column=0, padx=(10, 10), pady=(10, 10), sticky='nsew')
         file_sorting_frame.columnconfigure(0, weight = 1)
         file_sorting_frame.columnconfigure(1, weight = 1)
@@ -161,23 +135,16 @@ class SortOptions(ttk.Frame):
         sort_button = ttk.Button(file_sorting_frame, text='Sort')
         sort_button.grid(row = 4, column=1, padx= 5, pady= 5, sticky='ew')
 
-    def get_sort_option(self):
-        return self.sort_option.get()
+        return sorting_frame
 
 
 
-class FileOperation(ttk.Frame):
+    def create_operation_frame (self, parent):
+        op_frame = ttk.Frame(parent)
+        op_frame.rowconfigure(0, weight = 1)
+        op_frame.columnconfigure(0, weight = 1)
 
-    def __init__(self, parent):
-        super().__init__(parent)
-
-        self.rowconfigure(0, weight = 1)
-        self.columnconfigure(0, weight = 1)
-
-        self.widget_init()
-
-    def widget_init(self):
-        file_operation_frame = ttk.LabelFrame(self, text="File Operation", padding=(5, 5))
+        file_operation_frame = ttk.LabelFrame(op_frame, text="File Operation", padding=(5, 5))
         file_operation_frame.grid(row=0, column=0, padx=(10, 10), pady=(10, 10), sticky='nsew' )
         file_operation_frame.columnconfigure(0, weight = 1)
         file_operation_frame.columnconfigure(1, weight = 1)
@@ -191,3 +158,12 @@ class FileOperation(ttk.Frame):
 
         cut_button = ttk.Button(file_operation_frame, text='Cut')
         cut_button.grid(row=0, column=2, padx=5, pady= 5, sticky= 'ew')
+
+        return op_frame
+
+
+    def init_display(self):
+        self.mainloop()
+
+
+
